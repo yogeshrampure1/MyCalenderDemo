@@ -16,18 +16,70 @@ const Home = ({thisMonth}) => {
 ])
 
 
+let objList = [{
+    "id" : 5,
+    "name" : "June"
+  },{
+    "id" : 4,
+    "name" : "Jane"
+  },{
+    "id" : 3,
+    "name" : "Julia"
+  },{
+    "id" : 2,
+    "name" : "Nancy"
+  },{
+    "id" : 5,
+    "name" : "June"
+  },{
+    "id" : 5,
+    "name" : "June"
+  }];
+  
+  let uniqueList = [];
+  let dupList = [];
+  
+  Array.prototype.contains = function(item){
+    let filtered_item = this.filter((i) => {
+      return i.id === item.id
+    });
+    return !!filtered_item.length;
+  }
+  
+  function contains(list, item){
+    let filtered_item = list.filter((i) => {
+      return i.id === item.id
+    });
+    return !!filtered_item.length;
+  }
+  
+  function pushToUniqueList(item){
+    if(!uniqueList.contains(item)) uniqueList.push(item);
+  }
+  
+  function pushToDuplicateList(item){
+    if(!dupList.contains(item)) dupList.push(item);
+  }
+  
+  for(let i = 0; i < objList.length; i++){
+    if(uniqueList.contains(objList[i])){
+      pushToDuplicateList(objList[i]);
+    } else {
+      pushToUniqueList(objList[i]);
+    }
+  }
+  
+  console.log('Duplicate list is ', dupList);
+  console.log('Unique list is ', uniqueList);
+
   return (
     <section className='colors'>
         {list.map((item, id)=>{
             const thisDate1= item+"-"+thisMonth+"-2022";
-            console.log("thisDate1",thisDate1);
             const eventsForDate= events.filter((i)=>{
-                console.log("i",i.date);
-                console.log("thisDate1", thisDate1);
 
                 return i.date==thisDate1
             })
-            console.log("eventsForDate", eventsForDate);
             return (<SingleDate key={id} item={item} eventsForDate={eventsForDate}
             />)
 
